@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TecnoTienda - Tu tienda de tecnología</title>
+    <link rel="stylesheet" href="css/style.css"> <link rel="stylesheet" href="css/animations.css"> </head>
+<body>
+<header>
+    <nav class="navbar">
+        <div class="nav-logo">TecnoTienda</div>
+        <ul class="nav-links">
+            <li><a href="index.html" class="active">Inicio</a></li>
+            <li><a href="productos.html">Productos</a></li>
+            <li><a href="atencion_cliente.html">Atención al Cliente</a></li>
+            <li><a href="sobre_nosotros.html">Sobre Nosotros</a></li>
+        </ul>
+        <div class="nav-auth">
+            <a href="inicio_sesion.html" class="btn btn-login">Iniciar Sesión</a>
+            <a href="registro.html" class="btn btn-register">Registrarse</a>
+        </div>
+        <div class="nav-user" style="display: none;">
+            <span id="userGreeting"></span>
+            <button id="logoutButton" class="btn btn-logout">Cerrar Sesión</button>
+        </div>
+    </nav>
+</header>
+
+<main>
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Bienvenido a TecnoTienda</h1>
+            <p>Tu destino número uno para los últimos gadgets y productos tecnológicos.</p>
+            <a href="productos.html" class="btn btn-primary">Ver Productos</a>
+        </div>
+    </section>
+
+    <section class="featured-products">
+        <h2>Productos Destacados</h2>
+        <div class="product-grid" id="featured-products-grid">
+            </div>
+    </section>
+</main>
+
+<footer>
+    <p>&copy; 2025 TecnoTienda. Todos los derechos reservados.</p>
+</footer>
+
+<script src="js/auth.js"></script> <script src="js/countryCodes.js"></script> <script src="js/products.js"></script>
+<script src="js/script.js"></script> <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        // This is the primary call for displaying featured products on the index page.
+        if (typeof window.displayProducts === 'function') {
+            window.displayProducts(true, 4);
+        }
+        // The checkLoginStatus is called by initPage in script.js, so not strictly needed here
+        // but doesn't harm if initPage's call is guarded.
+    });
+</script>
+<footer>
+        <p>&copy; 2025 TecnoTienda. Todos los derechos reservados.</p>
+    </footer>
+    <script src="js/countryCodes.js"></script> <script src="js/auth.js"></script>
+</html>
+</body>
+</html>

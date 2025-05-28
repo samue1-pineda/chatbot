@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TecnoTienda - Iniciar Sesión</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/animations.css">
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <div class="nav-logo">TecnoTienda</div>
+            <ul class="nav-links">
+                <li><a href="index.html">Inicio</a></li>
+                <li><a href="productos.html">Productos</a></li>
+                <li><a href="atencion_cliente.html">Atención al Cliente</a></li>
+                <li><a href="sobre_nosotros.html">Sobre Nosotros</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="container form-container">
+        <form id="loginForm" class="auth-form">
+            <h2>Iniciar Sesión</h2>
+            <div class="form-group">
+                <label for="username">Nombre de Usuario:</label>
+                <input type="text" id="username" name="username" required>
+            </div>
+            <div class="form-group">
+                <label for="password">Contraseña:</label>
+                <input type="password" id="password" name="password" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Ingresar</button>
+            <p id="loginMessage" class="form-message"></p>
+            <p>¿No tienes una cuenta? <a href="registro.html">Regístrate aquí</a></p>
+            <p><a href="#" id="forgotPasswordLink">¿Olvidaste tu contraseña?</a></p>
+        </form>
+
+        <div id="resetPasswordModal" class="modal" style="display:none;">
+            <div class="modal-content">
+                <span class="close-button" onclick="closeModal('resetPasswordModal')">&times;</span>
+                <h3>Restablecer Contraseña</h3>
+                <div class="form-group">
+                    <label for="resetEmailOrPhone">Ingresa tu Email o Teléfono registrado:</label>
+                    <input type="text" id="resetEmailOrPhone" name="resetEmailOrPhone">
+                </div>
+                <button id="sendResetLinkButton" class="btn btn-primary">Enviar Enlace de Restablecimiento</button>
+                <p id="resetStatusMessage" class="form-message"></p>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 TecnoTienda. Todos los derechos reservados.</p>
+    </footer>
+    <script src="js/auth.js"></script>
+    <script>
+        document.getElementById('loginForm').addEventListener('submit', handleLogin);
+        document.getElementById('forgotPasswordLink').addEventListener('click', (e) => {
+            e.preventDefault();
+            openModal('resetPasswordModal');
+        });
+        document.getElementById('sendResetLinkButton').addEventListener('click', handleForgotPassword);
+
+        function openModal(modalId) {
+            document.getElementById(modalId).style.display = 'block';
+        }
+        function closeModal(modalId) {
+            document.getElementById(modalId).style.display = 'none';
+        }
+    </script>
+</body>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+</html>

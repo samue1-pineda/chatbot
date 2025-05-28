@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TecnoTienda - Registro</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/animations.css">
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <div class="nav-logo">TecnoTienda</div>
+            <ul class="nav-links">
+                <li><a href="index.html">Inicio</a></li>
+                <li><a href="productos.html">Productos</a></li>
+                <li><a href="atencion_cliente.html">Atención al Cliente</a></li>
+                <li><a href="sobre_nosotros.html">Sobre Nosotros</a></li>
+            </ul>
+             <div class="nav-auth">
+                <a href="inicio_sesion.html" class="btn btn-login">Iniciar Sesión</a>
+                <a href="registro.html" class="btn btn-register active">Registrarse</a>
+            </div>
+            <div class="nav-user" style="display: none;">
+                <span id="userGreeting"></span>
+                <button id="logoutButton" class="btn btn-logout">Cerrar Sesión</button>
+            </div>
+        </nav>
+    </header>
+
+    <main class="container form-container">
+        <form id="registrationForm" class="auth-form"> <h2>Crear Cuenta</h2>
+            <div id="initialRegistrationStep"> <div class="form-group">
+                    <label for="regUsername">Nombre de Usuario:</label> <input type="text" id="regUsername" name="regUsername" required> </div>
+                <div class="form-group">
+                    <label for="regPassword">Contraseña:</label> <input type="password" id="regPassword" name="regPassword" required> </div>
+                <div class="form-group">
+                    <label for="regConfirmPassword">Confirmar Contraseña:</label> <input type="password" id="regConfirmPassword" name="regConfirmPassword" required> </div>
+                <button type="button" id="nextStepButton" class="btn btn-primary">Siguiente</button> </div>
+
+            <div id="additionalInfoStep" style="display: none;"> <h3>Información Adicional (Opcional)</h3>
+                <p>Puedes completar esta información ahora o más tarde desde tu perfil.</p>
+                <div class="form-group">
+                    <label for="regEmail">Correo Electrónico:</label> <input type="email" id="regEmail" name="regEmail"> </div>
+                <div class="form-group">
+                    <label for="regCountryCode">Código de País:</label> <select id="regCountryCode" name="regCountryCode"> </select>
+                </div>
+                <div class="form-group">
+                    <label for="regPhoneNumber">Número de Teléfono:</label> <input type="tel" id="regPhoneNumber" name="regPhoneNumber" placeholder="Ej: 3001234567"> </div>
+                <button type="submit" class="btn btn-primary">Completar Registro</button>
+            </div>
+            <p id="registrationMessage" class="form-message"></p> <p>¿Ya tienes una cuenta? <a href="inicio_sesion.html">Inicia sesión aquí</a></p>
+        </form>
+        
+        <div style="text-align: center; margin-top: 20px;">
+            <button id="manualSaveUsersButton" class="btn">Guardar Cambios de Usuarios (Descargar JSON)</button>
+        </div>
+
+        <div id="manageUserModal" class="modal" style="display:none;"> <div class="modal-content">
+                <span class="close-button" onclick="closeModal('manageUserModal');">&times;</span> <h3>Gestionar Mis Datos</h3>
+                <form id="manageUserForm"> <div class="form-group">
+                        <label for="mngEmail">Correo Electrónico:</label> <input type="email" id="mngEmail" name="mngEmail"> </div>
+                    <div class="form-group">
+                        <label for="mngCountryCode">Código de País:</label> <select id="mngCountryCode" name="mngCountryCode"></select> </div>
+                    <div class="form-group">
+                        <label for="mngPhoneNumber">Número de Teléfono:</label> <input type="tel" id="mngPhoneNumber" name="mngPhoneNumber"> </div>
+                    <button type="button" id="updateUserInfoButton" class="btn btn-primary">Actualizar Información</button> <p id="manageInfoMessage" class="form-message"></p> <hr>
+                    <h4>Cambiar Contraseña</h4>
+                    <div class="form-group">
+                        <label for="mngOldPassword">Contraseña Actual:</label> <input type="password" id="mngOldPassword" name="mngOldPassword"> </div>
+                    <div class="form-group">
+                        <label for="mngNewPassword">Nueva Contraseña:</label> <input type="password" id="mngNewPassword" name="mngNewPassword"> </div>
+                    <div class="form-group">
+                        <label for="mngConfirmNewPassword">Confirmar Nueva Contraseña:</label> <input type="password" id="mngConfirmNewPassword" name="mngConfirmNewPassword"> </div>
+                    <button type="button" id="updatePasswordButton" class="btn btn-primary">Cambiar Contraseña</button> <p id="managePasswordMessage" class="form-message"></p> </form>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 TecnoTienda. Todos los derechos reservados.</p>
+    </footer>
+    <script src="js/countryCodes.js"></script> <script src="js/auth.js"></script> <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // populateCountryCodes is called from auth.js now when needed for manageUserModal or by registration form script part.
+            // For registration form:
+            if (typeof populateCountryCodes === 'function') { //
+                 populateCountryCodes('regCountryCode'); // For the registration form
+            }
+            
+            const nextStepButton = document.getElementById('nextStepButton'); //
+            // Registration form 'submit' is handled by auth.js's event listener for 'registrationForm'
+
+            if (nextStepButton) {
+                nextStepButton.addEventListener('click', () => { //
+                    const username = document.getElementById('regUsername').value; //
+                    const pass = document.getElementById('regPassword').value; //
+                    const confirmPass = document.getElementById('regConfirmPassword').value; //
+                    const messageElem = document.getElementById('registrationMessage'); //
+
+                    if (!username || !pass || !confirmPass) {
+                        messageElem.textContent = 'Por favor, completa todos los campos obligatorios del primer paso.';
+                        messageElem.className = 'form-message error';
+                        return;
+                    }
+                    if (pass !== confirmPass) {
+                        messageElem.textContent = 'Las contraseñas no coinciden.';
+                        messageElem.className = 'form-message error';
+                        return;
+                    }
+                    messageElem.textContent = ''; // Clear previous messages
+                    document.getElementById('initialRegistrationStep').style.display = 'none'; //
+                    document.getElementById('additionalInfoStep').style.display = 'block'; //
+                });
+            }
+        });
+
+        // Modal functions (can be kept here or moved to a general UI script)
+        function openManageUserModal() {
+            // loadUserDataForManagement will be called by auth.js or needs to be called after populate
+            if (typeof populateCountryCodes === 'function') { //
+                populateCountryCodes('mngCountryCode'); // Populate codes in the management modal
+            }
+            if (typeof loadUserDataForManagement === 'function') { //
+                loadUserDataForManagement(); // Load current user's data into the form
+            }
+            document.getElementById('manageUserModal').style.display = 'block'; //
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).style.display = 'none'; //
+        }
+    </script>
+    </body>
+</html>

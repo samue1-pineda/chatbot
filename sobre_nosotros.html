@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TecnoTienda - Sobre Nosotros</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/animations.css">
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <div class="nav-logo">TecnoTienda</div>
+            <ul class="nav-links">
+                <li><a href="index.html">Inicio</a></li>
+                <li><a href="productos.html">Productos</a></li>
+                <li><a href="atencion_cliente.html">Atención al Cliente</a></li>
+                <li><a href="sobre_nosotros.html" class="active">Sobre Nosotros</a></li>
+            </ul>
+            <div class="nav-auth">
+                <a href="inicio_sesion.html" class="btn btn-login">Iniciar Sesión</a>
+                <a href="registro.html" class="btn btn-register">Registrarse</a>
+            </div>
+            <div class="nav-user" style="display: none;">
+                <span id="userGreeting"></span>
+                <button id="logoutButton" class="btn btn-logout">Cerrar Sesión</button>
+            </div>
+        </nav>
+    </header>
+
+    <main class="container">
+        <section class="about-us-section">
+            <h1>Sobre TecnoTienda</h1>
+            <article class="about-content">
+                <p class="placeholder-text">
+                    [POR FAVOR, INSERTA AQUÍ LA INFORMACIÓN DETALLADA SOBRE TU EMPRESA: HISTORIA, MISIÓN, VISIÓN, VALORES, ETC.]
+                </p>
+                <p class="placeholder-text">
+                    Este es un espacio reservado para que cuentes la historia de TecnoTienda, qué los motiva,
+                    cuál es su equipo (si aplica), y cualquier otra información relevante que quieras compartir
+                    con tus clientes para generar confianza y cercanía.
+                </p>
+            </article>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 TecnoTienda. Todos los derechos reservados.</p>
+    </footer>
+
+    <script src="js/script.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            checkLoginStatus();
+        });
+    </script>
+</body>
+</html>

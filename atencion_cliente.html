@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TecnoTienda - Atención al Cliente</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/animations.css">
+    <style>
+        /* Estilos opcionales para el contenedor del chatbot de Copilot Studio */
+        #copilotChatbotContainer {
+            height: 500px; /* Ajusta la altura según necesites */
+            max-width: 100%; /* O un ancho específico */
+            border: 1px solid #ddd; /* Opcional: para visualizar el marco */
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1); /* Opcional */
+    
+        }
+        /* Si el código de Copilot usa un iframe, puedes aplicar estilos directamente al iframe o a su contenedor */
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <div class="nav-logo">TecnoTienda</div>
+            <ul class="nav-links">
+                <li><a href="index.html">Inicio</a></li>
+                <li><a href="productos.html">Productos</a></li>
+                <li><a href="atencion_cliente.html" class="active">Atención al Cliente</a></li>
+                <li><a href="sobre_nosotros.html">Sobre Nosotros</a></li>
+            </ul>
+            <div class="nav-auth">
+                <a href="inicio_sesion.html" class="btn btn-login">Iniciar Sesión</a>
+                <a href="registro.html" class="btn btn-register">Registrarse</a>
+            </div>
+            <div class="nav-user" style="display: none;">
+                <span id="userGreeting"></span>
+                <button id="logoutButton" class="btn btn-logout">Cerrar Sesión</button>
+            </div>
+        </nav>
+    </header>
+
+    <main class="container">
+        <section class="support-section">
+            <h1>Centro de Ayuda</h1>
+            <p>¿Necesitas ayuda? Estamos aquí para ti.</p>
+
+            <div class="support-options">
+                <div class="support-option">
+                    <h2><img src="pagina_web/img/faq_icon.svg" alt="FAQ Icon" style="width:24px; height:24px; vertical-align:middle; margin-right: 8px;">Preguntas Frecuentes (FAQ)</h2>
+                    <div class="faq-item">
+                        <h3>¿Cómo hago un pedido?</h3>
+                        <p>Puedes navegar por nuestra sección de productos, añadir artículos a tu carrito y proceder al pago.</p>
+                    </div>
+                    <div class="faq-item">
+                        <h3>¿Qué métodos de pago aceptan?</h3>
+                        <p>Actualmente, este es un sitio de demostración. En un sitio real, se aceptarían tarjetas de crédito, PayPal, etc.</p>
+                    </div>
+                     <div class="faq-item">
+                        <h3>¿Cuál es su política de devoluciones?</h3>
+                        <p>Para productos defectuosos, ofrecemos un reemplazo dentro de los 30 días de la compra.</p>
+                    </div>
+                </div>
+
+                <div class="support-option">
+                    <h2><img src="pagina_web/img/contact_icon.svg" alt="Contact Icon" style="width:24px; height:24px; vertical-align:middle; margin-right: 8px;">Contacta con Nosotros</h2>
+                    <form id="contactForm">
+                        <label for="contactName">Nombre:</label>
+                        <input type="text" id="contactName" name="contactName" required>
+                        
+                        <label for="contactEmail">Email:</label>
+                        <input type="email" id="contactEmail" name="contactEmail" required>
+                        
+                        <label for="contactSubject">Asunto:</label>
+                        <input type="text" id="contactSubject" name="contactSubject" required>
+                        
+                        <label for="contactMessage">Mensaje:</label>
+                        <textarea id="contactMessage" name="contactMessage" rows="5" required></textarea>
+                        
+                        <button type="submit" class="btn btn-primary">Enviar Mensaje</button>
+                    </form>
+                    <p id="contactFormStatus"></p>
+                </div>
+            </div>
+        </section>
+
+        <section class="chatbot-section">
+            <h2>Chatea con Nuestro Asistente Virtual</h2>
+            <div class="chatbot-interface">
+                <div id="copilotChatbotContainer">
+                    <iframe src="https://copilotstudio.microsoft.com/environments/Default-8d36836e-6b75-4de6-bab9-5f4b1775427f/bots/crm_agenteRxgsQF/webchat?__version__=2" frameborder="0" style="width: 100%; height: 100%;"></iframe>
+                    <p style="text-align:center; padding: 20px;">Bienvenido.</p>
+                </div>
+
+                <p style="font-size: 0.9em; margin-top: 10px; text-align: center;">
+                    <strong>Nota:</strong> La IA generativa de copilot ha sido desactivada para pruebas
+                </p>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 TecnoTienda. Todos los derechos reservados.</p>
+    </footer>
+    <script src="js/script.js"></script> <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // La función checkLoginStatus() debe estar disponible globalmente o ser importada si usas módulos.
+            // Asumiendo que está en script.js o auth.js (que debe cargarse).
+            if (typeof checkLoginStatus === 'function') {
+                checkLoginStatus();
+            } else {
+                console.warn('checkLoginStatus function not found. Ensure auth.js or similar is loaded correctly.');
+            }
+
+            const contactForm = document.getElementById('contactForm');
+            if (contactForm) { // Buena práctica verificar si el elemento existe
+                const contactFormStatus = document.getElementById('contactFormStatus');
+                contactForm.addEventListener('submit', (e) => {
+                    e.preventDefault();
+                    if (contactFormStatus) {
+                        contactFormStatus.textContent = "Gracias por tu mensaje. Nos pondremos en contacto contigo pronto (simulación).";
+                    }
+                    contactForm.reset();
+                });
+            }
+
+
+        });
+    </script>
+    <footer>
+        <p>&copy; 2025 TecnoTienda. Todos los derechos reservados.</p>
+    </footer>
+    <script src="js/countryCodes.js"></script> <script src="js/auth.js"></script>
+
+</html>
+</body>
+</html>

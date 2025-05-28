@@ -1,0 +1,49 @@
+[
+  {
+    "id": "TL001",
+    "nombre": "Teléfono Inteligente Gama Alta",
+    "precio": 2800000,
+    "especificaciones": "Pantalla Super AMOLED 6.8\", 12GB RAM, 256GB, Cámara 108MP",
+    "categoria": "Smartphones",
+    "imagen": "img/productos/TL001.jpg"
+  },
+  {
+    "id": "LP001",
+    "nombre": "Laptop Profesional X1",
+    "precio": 4500000,
+    "especificaciones": "Intel Core i7, 16GB RAM, 512GB SSD NVMe, Pantalla 14\" FHD",
+    "categoria": "Laptops",
+    "imagen": "img/productos/LP001.jpg"
+  },
+  {
+    "id": "AU001",
+    "nombre": "Audífonos Inalámbricos Cancelación Ruido",
+    "precio": 650000,
+    "especificaciones": "Bluetooth 5.2, Batería 20h, Estuche de carga, Micrófono HD",
+    "categoria": "Audio",
+    "imagen": "img/productos/AU001.jpg"
+  },
+  {
+    "id": "SMW01",
+    "nombre": "Smartwatch Fitness Plus",
+    "precio": 890000,
+    "especificaciones": "GPS, Monitor de ritmo cardíaco, Oxímetro, Resistencia al agua",
+    "categoria": "Wearables",
+    "imagen": "img/productos/SMW01.jpg"
+  },
+  {
+    "id": "CON01",
+    "nombre": "Consola de Videojuegos Z",
+    "precio": 2100000,
+    "especificaciones": "Capacidad 1TB SSD, Gráficos 4K HDR, Control inalámbrico avanzado",
+    "categoria": "Gaming",
+    "imagen": "img/productos/CON01.jpg"
+  },
+  {
+    "id": "ACC001",
+    "nombre": "Cargador Rápido Universal",
+    "precio": 120000,
+    "especificaciones": "65W, USB-C y USB-A, Múltiples protecciones",
+    "categoria": "Accesorios"
+  }
+]

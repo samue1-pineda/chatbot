@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TecnoTienda - Mi Perfil</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/animations.css">
+    <style>
+        /* ... (Estilos previamente definidos se mantienen) ... */
+         .profile-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 30px;
+        }
+
+        .user-details-section, .user-cart-section {
+            background-color: white;
+            padding: 25px;
+            border-radius: 8px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .user-details-section {
+            flex: 1;
+            min-width: 300px;
+        }
+
+        .user-cart-section {
+            flex: 2;
+            min-width: 400px;
+        }
+
+        .user-details-section h2, .user-cart-section h2 {
+            margin-bottom: 20px;
+            color: var(--primary-color);
+        }
+
+        .detail-item {
+            margin-bottom: 15px;
+            font-size: 1rem;
+        }
+
+        .detail-item strong {
+            display: inline-block;
+            width: 150px; /* Ajusta según sea necesario */
+            color: #555;
+        }
+
+        .cart-item {
+            display: flex;
+            align-items: center;
+            border-bottom: 1px solid var(--light-gray);
+            padding: 15px 0;
+            gap: 15px;
+        }
+        .cart-item:last-child {
+            border-bottom: none;
+        }
+
+        .cart-item img {
+            width: 80px;
+            height: 80px;
+            object-fit: cover;
+            border-radius: 4px;
+            border: 1px solid var(--medium-gray);
+        }
+
+        .cart-item-details {
+            flex-grow: 1;
+        }
+        .cart-item-details h4 {
+            margin: 0 0 5px 0;
+            font-size: 1.1rem;
+        }
+
+        .cart-item-quantity input {
+            width: 50px;
+            padding: 5px;
+            text-align: center;
+            margin: 0 5px;
+            border: 1px solid var(--medium-gray);
+            border-radius: 3px;
+        }
+        .cart-item-quantity button {
+            padding: 5px 8px;
+            cursor: pointer;
+            background-color: var(--light-gray);
+            border: 1px solid var(--medium-gray);
+            border-radius: 3px;
+        }
+        .cart-item-actions button {
+            background-color: var(--accent-color);
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+        .cart-item-actions button:hover {
+            opacity: 0.8;
+        }
+
+        .cart-total {
+            margin-top: 20px;
+            text-align: right;
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+        .cart-total p {
+             margin-bottom: 15px;
+        }
+
+        .btn-checkout {
+            display: block;
+            width: auto;
+            float: right;
+            padding: 12px 25px;
+            font-size: 1.1rem;
+        }
+        
+        .no-cart-message {
+            text-align: center;
+            padding: 30px;
+            font-size: 1.1rem;
+            color: var(--dark-gray);
+        }
+        .no-cart-message a {
+            color: var(--primary-color);
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <div class="nav-logo">TecnoTienda</div>
+            <ul class="nav-links">
+                <li><a href="index.html">Inicio</a></li>
+                <li><a href="productos.html">Productos</a></li>
+                <li><a href="atencion_cliente.html">Atención al Cliente</a></li>
+                <li><a href="sobre_nosotros.html">Sobre Nosotros</a></li>
+            </ul>
+            <div class="nav-auth" style="display: none;">
+                <a href="inicio_sesion.html" class="btn btn-login">Iniciar Sesión</a>
+                <a href="registro.html" class="btn btn-register">Registrarse</a>
+            </div>
+            <div class="nav-user">
+                <span id="userGreeting"></span>
+                <button id="logoutButton" class="btn btn-logout" style="display: none;">Cerrar Sesión</button>
+                <button id="manualSaveUsersButton" class="btn" style="margin-left:10px; background-color: #f0ad4e; color:white;">Guardar Cambios Usuarios</button>
+            </div>
+        </nav>
+    </header>
+
+    <main class="container">
+        <h1>Mi Perfil y Carrito</h1>
+        <div id="userProfileContent" class="profile-container" style="display:none;">
+            <section class="user-details-section">
+                <h2>Mis Datos</h2>
+                <div id="userDetails">
+                    <p class="detail-item"><strong>Usuario:</strong> <span id="profileUsername"></span></p>
+                    <p class="detail-item"><strong>Email:</strong> <span id="profileEmail"></span></p>
+                    <p class="detail-item"><strong>Teléfono:</strong> <span id="profilePhone"></span></p>
+                    <p class="detail-item"><strong>Registrado desde:</strong> <span id="profileRegTime"></span></p>
+                    <p class="detail-item"><strong>Última conexión:</strong> <span id="profileLastLogin"></span></p>
+                    <button id="openManageDataModalButton" class="btn btn-primary" style="margin-top: 15px;">Gestionar Mis Datos</button>
+                </div>
+            </section>
+
+            <section class="user-cart-section">
+                <h2>Mi Carrito de Compras</h2>
+                <div id="userCart">
+                    </div>
+                <div id="cartTotalSection" class="cart-total" style="display:none;">
+                    <p>Total del Carrito: <span id="cartTotalPrice"></span></p>
+                    <button class="btn btn-primary btn-checkout" onclick="handleCheckout()">Proceder al Pago (Simulación)</button>
+                </div>
+                 <p id="emptyCartMessage" class="no-cart-message" style="display:none;">
+                    Tu carrito está vacío. <a href="productos.html">¡Empieza a comprar!</a>
+                </p>
+            </section>
+        </div>
+        <p id="loadingProfileMessage">Cargando perfil...</p>
+        <p id="notLoggedInMessage" style="display:none; text-align:center; font-size:1.2em; color:var(--accent-color);">
+            Debes <a href="inicio_sesion.html">iniciar sesión</a> para ver tu perfil y carrito.
+        </p>
+    </main>
+
+    <div id="manageUserModal" class="modal" style="display:none;">
+        <div class="modal-content">
+            <span class="close-button" onclick="closeModal('manageUserModal');">&times;</span>
+            <h3>Gestionar Mis Datos</h3>
+            <form id="manageUserForm">
+                <div class="form-group">
+                    <label for="mngEmail">Correo Electrónico:</label>
+                    <input type="email" id="mngEmail" name="mngEmail">
+                </div>
+                <div class="form-group">
+                    <label for="mngCountryCode">Código de País:</label>
+                    <select id="mngCountryCode" name="mngCountryCode"></select>
+                </div>
+                <div class="form-group">
+                    <label for="mngPhoneNumber">Número de Teléfono:</label>
+                    <input type="tel" id="mngPhoneNumber" name="mngPhoneNumber">
+                </div>
+                <button type="button" id="updateUserInfoButton" class="btn btn-primary">Actualizar Información</button>
+                <p id="manageInfoMessage" class="form-message"></p>
+                <hr>
+                <h4>Cambiar Contraseña</h4>
+                <div class="form-group">
+                    <label for="mngOldPassword">Contraseña Actual:</label>
+                    <input type="password" id="mngOldPassword" name="mngOldPassword">
+                </div>
+                <div class="form-group">
+                    <label for="mngNewPassword">Nueva Contraseña:</label>
+                    <input type="password" id="mngNewPassword" name="mngNewPassword">
+                </div>
+                <div class="form-group">
+                    <label for="mngConfirmNewPassword">Confirmar Nueva Contraseña:</label>
+                    <input type="password" id="mngConfirmNewPassword" name="mngConfirmNewPassword">
+                </div>
+                <button type="button" id="updatePasswordButton" class="btn btn-primary">Cambiar Contraseña</button>
+                <p id="managePasswordMessage" class="form-message"></p>
+            </form>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2025 TecnoTienda. Todos los derechos reservados.</p>
+    </footer>
+
+    <script src="js/countryCodes.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/products.js"></script>
+    <script>
+        async function displayUserProfile() {
+            const loggedInUserSession = getLoggedInUser();
+            const userProfileContent = document.getElementById('userProfileContent');
+            const loadingMessage = document.getElementById('loadingProfileMessage');
+            const notLoggedInMessage = document.getElementById('notLoggedInMessage');
+
+            if (!loggedInUserSession) {
+                loadingMessage.style.display = 'none';
+                notLoggedInMessage.style.display = 'block';
+                userProfileContent.style.display = 'none';
+                return;
+            }
+            
+            if (currentUsersData.length === 0 && typeof loadUsersFromJSON === 'function') {
+                await loadUsersFromJSON();
+            }
+            if ((!window.allProductsData || window.allProductsData.length === 0) && typeof fetchProductsData === 'function') {
+                await fetchProductsData();
+            }
+
+            const currentUserFullData = currentUsersData.find(u => u.id === loggedInUserSession.userId);
+
+            if (!currentUserFullData) {
+                console.error("No se encontraron los datos completos del usuario logueado.");
+                loadingMessage.textContent = 'Error al cargar los datos del perfil.';
+                notLoggedInMessage.style.display = 'block';
+                userProfileContent.style.display = 'none';
+                return;
+            }
+
+            document.getElementById('profileUsername').textContent = currentUserFullData.username;
+            document.getElementById('profileEmail').textContent = currentUserFullData.email || 'No especificado';
+            document.getElementById('profilePhone').textContent = (currentUserFullData.countryCode || '') + ' ' + (currentUserFullData.phoneNumber || 'No especificado');
+            document.getElementById('profileRegTime').textContent = currentUserFullData.registrationTime ? new Date(currentUserFullData.registrationTime).toLocaleDateString() : 'N/A';
+            document.getElementById('profileLastLogin').textContent = currentUserFullData.lastLoginTime ? new Date(currentUserFullData.lastLoginTime).toLocaleString() : 'N/A';
+
+            const userCartDiv = document.getElementById('userCart');
+            const cartTotalSection = document.getElementById('cartTotalSection');
+            const emptyCartMessage = document.getElementById('emptyCartMessage');
+            userCartDiv.innerHTML = ''; 
+
+            const cartDetails = await getUserCartDetails();
+            let totalPrice = 0;
+
+            if (cartDetails && cartDetails.length > 0) {
+                cartDetails.forEach(item => {
+                    const itemElement = document.createElement('div');
+                    itemElement.className = 'cart-item';
+                    // ***** LÍNEA CORREGIDA *****
+                    itemElement.innerHTML = ` 
+                        <img src="${item.imagen || 'img/no-image.png'}" alt="${item.nombre}">
+                        <div class="cart-item-details">
+                            <h4>${item.nombre}</h4>
+                            <p>Precio: $${item.precio.toLocaleString('es-CO')}</p>
+                            <p>ID: ${item.productId}</p>
+                        </div>
+                        <div class="cart-item-quantity">
+                            <button onclick="updateQuantity('${item.productId}', ${item.quantity - 1})">-</button>
+                            <input type="number" value="${item.quantity}" min="1" onchange="updateQuantity('${item.productId}', this.value)">
+                            <button onclick="updateQuantity('${item.productId}', ${item.quantity + 1})">+</button>
+                        </div>
+                        <div class="cart-item-actions">
+                            <p>Subtotal: $${(item.precio * item.quantity).toLocaleString('es-CO')}</p>
+                            <button onclick="removeItemFromCartView('${item.productId}')">Eliminar</button>
+                        </div>
+                    `; // ***** TEMPLATE LITERAL CERRADO CORRECTAMENTE *****
+                    userCartDiv.appendChild(itemElement);
+                    totalPrice += item.precio * item.quantity;
+                });
+                document.getElementById('cartTotalPrice').textContent = `$${totalPrice.toLocaleString('es-CO')}`;
+                cartTotalSection.style.display = 'block';
+                emptyCartMessage.style.display = 'none';
+            } else {
+                cartTotalSection.style.display = 'none';
+                emptyCartMessage.style.display = 'block';
+            }
+
+            loadingMessage.style.display = 'none';
+            notLoggedInMessage.style.display = 'none';
+            userProfileContent.style.display = 'flex';
+        }
+
+        function updateQuantity(productId, newQuantity) {
+            const quantity = parseInt(newQuantity);
+            if (isNaN(quantity)) return;
+
+            if (quantity <= 0) {
+                removeItemFromCartView(productId);
+            } else {
+                if (typeof window.updateCartItemQuantity === 'function') {
+                    window.updateCartItemQuantity(productId, quantity);
+                }
+            }
+        }
+
+        function removeItemFromCartView(productId) {
+            if (confirm("¿Estás seguro de que quieres eliminar este producto del carrito?")) {
+                if (typeof window.removeFromCart === 'function') {
+                    window.removeFromCart(productId, true); 
+                }
+            }
+        }
+        
+        function handleCheckout() {
+            alert("Gracias por tu compra (Simulación). El carrito se vaciará y se guardarán los cambios.");
+            const loggedInUserSession = getLoggedInUser();
+            if(loggedInUserSession) {
+                const userIndex = currentUsersData.findIndex(u => u.id === loggedInUserSession.userId);
+                if(userIndex !== -1) {
+                    currentUsersData[userIndex].cart = [];
+                    if (typeof saveUsersToJSON === 'function') {
+                        saveUsersToJSON(); 
+                    }
+                    displayUserProfile(); 
+                }
+            }
+        }
+        
+        function openManageUserModalLocal() {
+            if (typeof populateCountryCodes === 'function') {
+                populateCountryCodes('mngCountryCode');
+            }
+            if (typeof loadUserDataForManagement === 'function') {
+                loadUserDataForManagement();
+            }
+            document.getElementById('manageUserModal').style.display = 'block';
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).style.display = 'none';
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            displayUserProfile();
+
+            const openManageButton = document.getElementById('openManageDataModalButton');
+            if(openManageButton) {
+                openManageButton.addEventListener('click', openManageUserModalLocal);
+            }
+            
+            // Asegurar que el botón de guardar usuarios del header esté funcional aquí también
+            const manualSaveButtonNav = document.querySelector('.nav-user #manualSaveUsersButton');
+            if (manualSaveButtonNav && typeof saveUsersToJSON === 'function') {
+                manualSaveButtonNav.addEventListener('click', saveUsersToJSON);
+            }
+        });
+    </script>
+</body>
+</html>
